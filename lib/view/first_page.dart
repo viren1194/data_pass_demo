@@ -15,55 +15,52 @@ class _FirstPageState extends State<FirstPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Stack(
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Stack(
         children: [
-          GestureDetector(
-            onTap: () {
-              FocusScope.of(context).unfocus();
-            },
-            child: Container(
-              color: Colors.transparent,
-              width: double.infinity,
-              height: double.infinity,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Column(
-              children: [
-                CommonTextfield(
-                  controller: nameController,
-                  text: "Name",
-                  suffixIcon: InkWell(
-                    onTap: () {
-                      nameController.clear();
-                    },
-                    child: const Icon(Icons.close),
-                  ),
+          Scaffold(
+            appBar: AppBar(),
+            body: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    CommonTextfield(
+                      controller: nameController,
+                      text: "Name",
+                      suffixIcon: InkWell(
+                        onTap: () {
+                          nameController.clear();
+                        },
+                        child: const Icon(Icons.close),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    CommonTextfield(
+                      controller: emailController,
+                      text: "Email",
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        FocusScope.of(context).unfocus();
+                        Get.to(SecondPage(
+                          email: emailController.text,
+                          name: nameController.text,
+                        ));
+                      },
+                      child: const Text("Next"),
+                    ),
+                  ],
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                CommonTextfield(
-                  controller: emailController,
-                  text: "Email",
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    FocusScope.of(context).unfocus();
-                    Get.to(SecondPage(
-                      email: emailController.text,
-                      name: nameController.text,
-                    ));
-                  },
-                  child: const Text("Next"),
-                ),
-              ],
+              ),
             ),
           ),
         ],
