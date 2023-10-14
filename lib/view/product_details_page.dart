@@ -21,6 +21,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           IconButton(
               onPressed: () {
                 productController.deleteProduct(products?.id ?? 0);
+                print("product==> ${products?.id}");
               },
               icon: const Icon(Icons.delete))
         ],

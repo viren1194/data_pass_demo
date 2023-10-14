@@ -5,6 +5,7 @@ import 'package:data_pass_demo/view/first_page.dart';
 import 'package:data_pass_demo/view/home_page.dart';
 import 'package:data_pass_demo/view/product_list_page.dart';
 import 'package:data_pass_demo/view/single_product_page.dart';
+import 'package:data_pass_demo/view/third_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const GetMaterialApp(
       title: 'Flutter Demo',
-      home: FirstPage(),
+      home: ThirdPage(),
       // initialRoute: Routes.homePage,
       // getPages: getPages,
     );

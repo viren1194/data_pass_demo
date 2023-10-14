@@ -15,55 +15,34 @@ class _FirstPageState extends State<FirstPage> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-      },
-      child: Stack(
-        children: [
-          Scaffold(
-            appBar: AppBar(),
-            body: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    CommonTextfield(
-                      controller: nameController,
-                      text: "Name",
-                      suffixIcon: InkWell(
-                        onTap: () {
-                          nameController.clear();
-                        },
-                        child: const Icon(Icons.close),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    CommonTextfield(
-                      controller: emailController,
-                      text: "Email",
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        FocusScope.of(context).unfocus();
-                        Get.to(SecondPage(
-                          email: emailController.text,
-                          name: nameController.text,
-                        ));
-                      },
-                      child: const Text("Next"),
-                    ),
-                  ],
-                ),
+    List<String> images = [
+      "https://tse1.mm.bing.net/th?id=OIP.HxV79tFMPfBAIo0BBF-sOgHaEy&pid=Api&rs=1&c=1&qlt=95&w=177&h=114",
+      "https://tse1.mm.bing.net/th?id=OIP.E4IJcali_762Oo_vNhhbFgHaEK&pid=Api&P=0&h=180",
+      "https://tse2.mm.bing.net/th?id=OIP.aj48y9KXH2xOZ46X9NvKJQHaEo&pid=Api&P=0&h=180",
+      "https://tse1.mm.bing.net/th?id=OIP.YAXlTjvtEKchdMVc5laZhwHaE8&pid=Api&P=0&h=180"
+    ];
+    return Scaffold(
+      appBar: AppBar(),
+      body: ListView.builder(
+        itemCount: images.length,
+        itemBuilder: (context, index) {
+          return GestureDetector(
+            onTap: () {
+              Get.to(SecondPage(
+                images: images,
+                index: index,
+              ));
+            },
+            child: SizedBox(
+              height: 400,
+              width: 400,
+              child: Image.network(
+                images[index],
+                fit: BoxFit.cover,
               ),
             ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }
