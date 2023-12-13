@@ -17,23 +17,23 @@ class AddProduct extends StatefulWidget {
 
 class _AddProductState extends State<AddProduct> {
   ProductController productController = Get.find();
-  late ProductModel? product;
+  late ProductModel product;
   bool isLoading = false;
-  // List<String> country = ['usa', 'india', 'uk'];
-  // String selectedCountry = 'usa';
-  // late String selectedCategoryId;
-  String categoryName = '';
+
   final categoryController = Get.find<CategoryController>();
+
   @override
   void initState() {
-    product = productController.currentProduct;
-    // selectedCategoryId = categoryController.categoryList.length.toString();
-//  selectId = categoryController.categoryList.first.id?.toInt() ?? 4;
     super.initState();
-    if (product != null) {
-      productController.initializeProductData(
-          isEdit: widget.isedit == true, product: product!);
+
+    if (Get.arguments != null) {
+      product = Get.arguments;
+    } else {
+      product = ProductModel();
     }
+
+    productController.initializeProductData(
+        isEdit: widget.isedit == true, product: product);
     Get.find<CategoryController>().getCategory();
   }
 
@@ -45,16 +45,39 @@ class _AddProductState extends State<AddProduct> {
 
   @override
   Widget build(BuildContext context) {
+    bool areTextFieldsFilled() {
+      return productController.titleController.text.isNotEmpty ||
+          productController.priceController.text.isNotEmpty ||
+          productController.descriptionController.text.isNotEmpty ||
+          productController.categoryIdController.text.isNotEmpty ||
+          productController.image1Controller.text.isNotEmpty ||
+          productController.image2Controller.text.isNotEmpty;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.isedit == true ? "Update" : "Add"),
+        leading: IconButton(
+            onPressed: () {
+              print(areTextFieldsFilled());
+              // if textfield are filled then click on back ,then show dialog other wise back even should call here
+              if (areTextFieldsFilled()) {
+                Get.defaultDialog(
+                    content: Column(
+                  children: [
+                    ElevatedButton(onPressed: () {}, child: Text("yes")),
+                    ElevatedButton(onPressed: () {}, child: Text("no"))
+                  ],
+                ));
+              }else{
+                Get.back();
+              }
+            },
+            icon: const Icon(Icons.arrow_back)),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: GetBuilder<CategoryController>(builder: (categoryController) {
-          // int index = categoryController.categoryList.indexWhere((element) => element.id == id);
-          categoryName = categoryController.categoryList.first.name ?? '';
-          print('categoryName ==>$categoryName');
           return ListView(
             children: [
               TextField(
@@ -96,54 +119,6 @@ class _AddProductState extends State<AddProduct> {
               const SizedBox(
                 height: 20,
               ),
-              DropdownButton<String>(
-                items: Get.find<CategoryController>().categoryList.map((value) {
-                  return DropdownMenuItem<String>(
-                    value: value.name.toString(),
-                    child: Text(value.name.toString()),
-                  );
-                }).toList(),
-                value: categoryName,
-                onChanged: (String? value) {
-                  setState(() {
-                    categoryName = value ?? '';
-                  });
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              // DropdownButton<String>(
-              //   items: Get.find<CategoryController>().categoryList.map((value) {
-              //     return DropdownMenuItem<String>(
-              //       value: value.id
-              //           .toString(), // Use a unique identifier, such as the category id, as a string
-              //       child: Text(value.id.toString()), // Display the category name
-              //     );
-              //   }).toList(),
-              //   value:
-              //       selectedCountry, // Make sure 'selectedCountry' matches one of the 'DropdownMenuItem' values
-              //   onChanged: (String? value) {
-              //     setState(() {
-              //       selectedCountry =
-              //           value ?? 'select category'; // Handle null value
-              //     });
-              //   },
-              // ),
-              // DropdownButton<String>(
-              //   items: country.map((String value) {
-              //     return DropdownMenuItem<String>(
-              //       value: value,
-              //       child: Text(value),
-              //     );
-              //   }).toList(),
-              //   value: selectedCountry,
-              //   onChanged: (String? newValue) {
-              //     setState(() {
-              //       selectedCountry = newValue!;
-              //     });
-              //   },
-              // ),
               TextField(
                 readOnly: widget.isedit == true ? true : false,
                 controller: productController.categoryIdController,

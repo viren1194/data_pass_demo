@@ -1,13 +1,9 @@
 import 'package:data_pass_demo/utils/get_di.dart' as di;
-import 'package:data_pass_demo/utils/routes.dart';
-import 'package:data_pass_demo/view/categorywise_product.dart';
-import 'package:data_pass_demo/view/first_page.dart';
 import 'package:data_pass_demo/view/home_page.dart';
-import 'package:data_pass_demo/view/product_list_page.dart';
-import 'package:data_pass_demo/view/single_product_page.dart';
-import 'package:data_pass_demo/view/third_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:feature_discovery/feature_discovery.dart';
+import 'package:data_pass_demo/view/product_list_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,9 +16,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(
+    return GetMaterialApp(
       title: 'Flutter Demo',
-      home: ThirdPage(),
+      home: FeatureDiscovery.withProvider(
+          persistenceProvider: NoPersistenceProvider(),
+          child: ProductListPage()),
       // initialRoute: Routes.homePage,
       // getPages: getPages,
     );

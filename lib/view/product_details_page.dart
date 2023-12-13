@@ -13,7 +13,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   ProductController productController = Get.find();
   @override
   Widget build(BuildContext context) {
-    final ProductModel? products = productController.currentProduct;
+    // final ProductModel? products = productController.currentProduct;
+    final ProductModel? products = Get.arguments;
     return Scaffold(
       appBar: AppBar(
         title: Text(products?.title ?? ''),
@@ -21,7 +22,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           IconButton(
               onPressed: () {
                 productController.deleteProduct(products?.id ?? 0);
-                print("product==> ${products?.id}");
+                // print("product==> ${products?.id}");
               },
               icon: const Icon(Icons.delete))
         ],
@@ -32,27 +33,27 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(products?.id.toString() ?? ''),
+                Text(products.id.toString()),
                 const SizedBox(
                   height: 10,
                 ),
                 Image.network(
-                  products?.images?.first.toString() ?? '',
+                  products.images?.first.toString() ?? '',
                   height: 200,
                 ),
                 const SizedBox(
                   height: 10,
                 ),
-                Text(products?.description ?? ''),
+                Text(products.description ?? ''),
                 const SizedBox(
                   height: 10,
                 ),
-                Text(products?.price.toString() ?? ''),
+                Text(products.price.toString()),
                 const SizedBox(
                   height: 10,
                 ),
                 Text(
-                    "category name == ${products?.category?.name.toString() ?? ''}"),
+                    "category name == ${products.category?.name.toString() ?? ''}"),
               ],
             ),
     );

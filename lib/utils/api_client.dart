@@ -24,7 +24,7 @@ class ApiClient extends GetxService {
         print("url===>$uri");
         print("body===> ${jsonEncode(body)}");
         print("Header===>$_mainHeader");
-        print("RESPONSE ===>${response.body}");
+        // print("RESPONSE ===>${response.body}");
       }
 
       return handelResponse(response, url);
@@ -45,7 +45,7 @@ class ApiClient extends GetxService {
       if (kDebugMode) {
         print("url===> $uri");
         print("Header===> $_mainHeader");
-        print("Response ===>${response.body}");
+        // print("Response ===>${response.body}");
       }
 
       return handelResponse(response, url);
@@ -71,7 +71,7 @@ class ApiClient extends GetxService {
         print('API Call ====>  $uri\n');
         print('API Header ====>  $_mainHeader\n');
         print('API Body ====>  ${jsonEncode(body)}');
-        print("response ===> ${response.body}");
+        // print("response ===> ${response.body}");
       }
 
       return handelResponse(response, uri);

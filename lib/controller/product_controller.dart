@@ -56,15 +56,14 @@ class ProductController extends GetxController implements GetxService {
   Future<void> filterProductsByTitle(String title) async {
     dataNotFound = false;
     isLoading = true;
-    // update();
-
-    // Construct the URL with the title query parameter
+    update();
     String apiUrl = 'https://api.escuelajs.co/api/v1/products?title=$title';
-
-    // Make the API request without query parameters
     Response response = await apiClient.getData(apiUrl);
+    print('apiUrl --> $apiUrl');
+    print('response --> ${response.body}');
 
     if (response.statusCode == 200) {
+      dataNotFound = false;
       List<dynamic> responseData = response.body;
       if (responseData.isNotEmpty) {
         productList.clear(); // Clear the existing list before adding new items
@@ -74,16 +73,18 @@ class ProductController extends GetxController implements GetxService {
             productList.add(productModel);
           },
         );
-        update();
+        isLoading = false;
+        // update();
       } else {
         dataNotFound = true;
-        isLoading = false;
-        update();
+        // isLoading = false;
+        // update();
       }
     } else {
-      isLoading = false;
-      update();
+      // isLoading = false;
+      // update();
     }
+    update();
   }
 
   Future<void> addProduct({required ProductBody productBody}) async {
@@ -178,4 +179,15 @@ class ProductController extends GetxController implements GetxService {
     image1Controller.clear();
     image2Controller.clear();
   }
+
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   titleController.clear();
+  //   priceController.clear();
+  //   descriptionController.clear();
+  //   categoryIdController.clear();
+  //   image1Controller.clear();
+  //   image2Controller.clear();
+  // }
 }
